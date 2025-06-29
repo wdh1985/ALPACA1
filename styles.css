@@ -1,38 +1,31 @@
 
 body {
-  font-family: Arial, sans-serif;
-  background: #f5f5f5;
-  padding: 2em;
+  font-family: sans-serif;
+  background: #f4f4f4;
 }
 .container {
-  background: #fff;
   max-width: 600px;
-  margin: auto;
-  padding: 2em;
+  margin: 30px auto;
+  padding: 20px;
+  background: white;
   border-radius: 8px;
-  box-shadow: 0 0 10px #ccc;
 }
-input, select, button {
-  display: block;
-  margin-bottom: 1em;
+input, select {
   width: 100%;
-  padding: 0.5em;
-  font-size: 1em;
+  padding: 6px;
+  margin: 5px 0 12px;
 }
-.symbol-list {
+button {
+  padding: 6px 12px;
+}
+.row {
   display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
-  margin-bottom: 1em;
+  gap: 8px;
 }
-.symbol-list .tag {
-  background: #007bff;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 5px;
-  cursor: pointer;
+table {
+  width: 100%;
+  margin-bottom: 12px;
 }
-#status {
-  margin-top: 1em;
-  color: #d00;
+.warn {
+  color: red;
 }

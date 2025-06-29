@@ -1,32 +1,30 @@
-
 <!DOCTYPE html>
 <html lang="zh">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Alpaca 配置管理</title>
-  <link href="styles.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="container">
-    <h2>🛡 登录配置系统</h2>
-    <label>API Key</label>
-    <input type="text" id="api_key" />
-    <label>API Secret</label>
-    <input type="text" id="api_secret" />
+    <h2>🔒 登录配置系统</h2>
+    <label>API Key</label><input id="apiKey" />
+    <label>API Secret</label><input id="apiSecret" />
     <label>股票列表</label>
-    <div class="symbol-list" id="symbol_list"></div>
-    <input type="text" id="new_symbol" placeholder="添加新股票代码"/>
-    <button onclick="addSymbol()">添加</button>
-    <label>请求频率（秒）</label>
-    <input type="number" id="fetch_interval" />
+    <div class="row">
+      <input id="symbolInput" placeholder="添加新股票代码"/>
+      <button onclick="addSymbol()">添加</button>
+    </div>
+    <table id="symbolTable"><thead><tr><th>股票代码</th><th>操作</th></tr></thead><tbody></tbody></table>
+    <label>请求频率（秒）</label><input id="interval" />
     <label>数据源</label>
-    <select id="data_source">
+    <select id="dataSource">
       <option value="free">免费</option>
-      <option value="premium">高级</option>
+      <option value="premium">付费</option>
     </select>
     <button onclick="saveConfig()">保存配置</button>
-    <div id="status"></div>
+    <p id="status" class="warn"></p>
   </div>
   <script src="script.js"></script>
 </body>

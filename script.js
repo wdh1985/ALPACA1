@@ -1,53 +1,71 @@
 
-const API_BASE = 'http://154.92.14.232:8080';
+const BACKEND = "http://154.92.14.232:8080";
 
 async function loadConfig() {
   try {
-    const res = await fetch(API_BASE + '/config');
-    const config = await res.json();
-    document.getElementById('api_key').value = config.api_key || '';
-    document.getElementById('api_secret').value = config.api_secret || '';
-    document.getElementById('fetch_interval').value = config.fetch_interval_seconds || '';
-    document.getElementById('data_source').value = config.data_source || '';
-    (config.symbols || []).forEach(sym => addSymbol(sym));
-  } catch {
-    document.getElementById('status').innerText = '⚠ 无法加载配置，请检查网络或服务器';
+    const res = await fetch(`${BACKEND}/config`);
+    const data = await res.json();
+    document.getElementById("apiKey").value = data.api_key || "";
+    document.getElementById("apiSecret").value = data.api_secret || "";
+    document.getElementById("interval").value = data.fetch_interval_seconds || "";
+    document.getElementById("dataSource").value = data.data_source || "free";
+    renderSymbols(data.symbols || []);
+    document.getElementById("status").textContent = "";
+  } catch (err) {
+    document.getElementById("status").textContent = "⚠️ 无法加载配置，请检查网络或服务器";
   }
 }
 
-function addSymbol(symbol) {
-  const input = document.getElementById('new_symbol');
-  const val = typeof symbol === 'string' ? symbol : input.value.trim();
-  if (!val) return;
-  const list = document.getElementById('symbol_list');
-  const span = document.createElement('span');
-  span.className = 'tag';
-  span.innerText = val;
-  span.onclick = () => list.removeChild(span);
-  list.appendChild(span);
-  if (!symbol) input.value = '';
+function renderSymbols(symbols) {
+  const tbody = document.querySelector("#symbolTable tbody");
+  tbody.innerHTML = "";
+  symbols.forEach(symbol => {
+    const row = document.createElement("tr");
+    row.innerHTML = `<td>${symbol}</td><td><button onclick="removeSymbol('${symbol}')">删除</button></td>`;
+    tbody.appendChild(row);
+  });
+}
+
+function addSymbol() {
+  const input = document.getElementById("symbolInput");
+  const symbol = input.value.trim().toUpperCase();
+  if (!symbol) return;
+  const rows = document.querySelectorAll("#symbolTable tbody tr");
+  for (let row of rows) {
+    if (row.children[0].textContent === symbol) return;
+  }
+  const row = document.createElement("tr");
+  row.innerHTML = `<td>${symbol}</td><td><button onclick="removeSymbol('${symbol}')">删除</button></td>`;
+  document.querySelector("#symbolTable tbody").appendChild(row);
+  input.value = "";
+}
+
+function removeSymbol(symbol) {
+  const rows = document.querySelectorAll("#symbolTable tbody tr");
+  for (let row of rows) {
+    if (row.children[0].textContent === symbol) row.remove();
+  }
 }
 
 async function saveConfig() {
-  const symbols = Array.from(document.getElementById('symbol_list').children).map(x => x.innerText);
-  const data = {
-    api_key: document.getElementById('api_key').value.trim(),
-    api_secret: document.getElementById('api_secret').value.trim(),
-    fetch_interval_seconds: parseInt(document.getElementById('fetch_interval').value.trim()),
-    data_source: document.getElementById('data_source').value,
-    symbols
+  const symbols = [...document.querySelectorAll("#symbolTable tbody tr")].map(row => row.children[0].textContent);
+  const config = {
+    api_key: document.getElementById("apiKey").value.trim(),
+    api_secret: document.getElementById("apiSecret").value.trim(),
+    symbols,
+    fetch_interval_seconds: Number(document.getElementById("interval").value.trim()),
+    data_source: document.getElementById("dataSource").value
   };
   try {
-    const res = await fetch(API_BASE + '/config', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(data)
+    await fetch(`${BACKEND}/config`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(config)
     });
-    const json = await res.json();
-    document.getElementById('status').innerText = json.status === 'ok' ? '✅ 配置已保存' : '❌ 保存失败';
-  } catch (e) {
-    document.getElementById('status').innerText = '❌ 网络错误，保存失败';
+    document.getElementById("status").textContent = "✅ 配置已保存";
+  } catch (err) {
+    document.getElementById("status").textContent = "❌ 保存失败";
   }
 }
 
-window.onload = loadConfig;
+loadConfig();
