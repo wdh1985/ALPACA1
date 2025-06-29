@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Alpaca 配置管理</title>
+  <link href="styles.css" rel="stylesheet"/>
+</head>
+<body>
+  <div class="container">
+    <h2>🛡 登录配置系统</h2>
+    <label>API Key</label>
+    <input type="text" id="api_key" />
+    <label>API Secret</label>
+    <input type="text" id="api_secret" />
+    <label>股票列表</label>
+    <div class="symbol-list" id="symbol_list"></div>
+    <input type="text" id="new_symbol" placeholder="添加新股票代码"/>
+    <button onclick="addSymbol()">添加</button>
+    <label>请求频率（秒）</label>
+    <input type="number" id="fetch_interval" />
+    <label>数据源</label>
+    <select id="data_source">
+      <option value="free">免费</option>
+      <option value="premium">高级</option>
+    </select>
+    <button onclick="saveConfig()">保存配置</button>
+    <div id="status"></div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

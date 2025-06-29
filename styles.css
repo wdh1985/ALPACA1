@@ -1,0 +1,38 @@
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+  padding: 2em;
+}
+.container {
+  background: #fff;
+  max-width: 600px;
+  margin: auto;
+  padding: 2em;
+  border-radius: 8px;
+  box-shadow: 0 0 10px #ccc;
+}
+input, select, button {
+  display: block;
+  margin-bottom: 1em;
+  width: 100%;
+  padding: 0.5em;
+  font-size: 1em;
+}
+.symbol-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 1em;
+}
+.symbol-list .tag {
+  background: #007bff;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+#status {
+  margin-top: 1em;
+  color: #d00;
+}
